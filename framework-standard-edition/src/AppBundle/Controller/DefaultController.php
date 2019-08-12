@@ -34,8 +34,45 @@ class DefaultController extends Controller
      */
     public function bookAction()
     {
-        $livres = [['titre' => 'DUNE', 'auteur' => 'F.HERBERT', 'parution' => new \DateTime('1965-11-11'), 'presentation' => 'une presentation'], ['titre' => 'Un titre2 ', 'auteur' => 'Un auteur 2', 'parution' => new \DateTime('1957-01-08'), 'presentation' => 'une presentation 2'], ['titre' => 'Une nouveauté', 'auteur' => 'Un auteur contemporain', 'parution' => new \DateTime('2019-08-01'), 'presentation' => 'une presentation 2']];
+        $livres = [['id' => 1, 'titre' => 'DUNE', 'auteur' => 'F.HERBERT', 'parution' => new \DateTime('1965-11-11'), 'presentation' => 'The most epic space tale around'], ['id' => 2,'titre' => 'jS, novice to Ninja ', 'auteur' => 'Jon Dev', 'parution' => new \DateTime('2007-01-08'), 'presentation' => 'De novice à Ninja en quelques mois.'], ['id' => 3,'titre' => 'La fin du PHP', 'auteur' => 'Paul Mc Code', 'parution' => new \DateTime('2019-08-01'), 'presentation' => 'débat: le PHP mourrera-t-il un jour?'],['id' => 4, 'titre' => 'Les enfants de Dune', 'auteur' => 'F.HERBERT', 'parution' => new \DateTime('1965-11-11'), 'presentation' => 'The most epic space tale around']];
 
         return $this->render('default/book.html.twig', ['livres' => $livres]);
+    }
+
+    /**
+     * @Route("/expand/{id}", name="expand")
+     */
+    public function expandAction(int $id = 1)
+    {
+        $livres = [['id' => 1, 'titre' => 'DUNE', 'auteur' => 'F.HERBERT', 'parution' => new \DateTime('1965-11-11'), 'presentation' => 'The most epic space tale around'], ['id' => 2,'titre' => 'jS, novice to Ninja ', 'auteur' => 'Jon Dev', 'parution' => new \DateTime('2007-01-08'), 'presentation' => 'De novice à Ninja en quelques mois.'], ['id' => 3,'titre' => 'La fin du PHP', 'auteur' => 'Paul Mc Code', 'parution' => new \DateTime('2019-08-01'), 'presentation' => 'débat: le PHP mourrera-t-il un jour?'],['id' => 4, 'titre' => 'Les enfants de Dune', 'auteur' => 'F.HERBERT', 'parution' => new \DateTime('1965-11-11'), 'presentation' => 'The most epic space tale around']];
+
+        $i = 0;
+        while($livres[$i]['id'] != $id)
+        {
+            $i++;
+        }
+
+        $livre = $livres[$i];
+
+        return $this->render('default/expand.html.twig', ['livres'=>$livres,'id' => $id,'livre' => $livre]);
+    }
+
+    /**
+     * @Route("/auteur/{auteur}", name="auteur")
+     */
+    public function auteurAction(string $auteur = "F.HERBERT")
+    {
+        $livres = [['id' => 1, 'titre' => 'DUNE', 'auteur' => 'F.HERBERT', 'parution' => new \DateTime('1965-11-11'), 'presentation' => 'The most epic space tale around'], ['id' => 2,'titre' => 'jS, novice to Ninja ', 'auteur' => 'Jon Dev', 'parution' => new \DateTime('2007-01-08'), 'presentation' => 'De novice à Ninja en quelques mois.'], ['id' => 3,'titre' => 'La fin du PHP', 'auteur' => 'Paul Mc Code', 'parution' => new \DateTime('2019-08-01'), 'presentation' => 'débat: le PHP mourrera-t-il un jour?'],['id' => 4, 'titre' => 'Les enfants de Dune', 'auteur' => 'F.HERBERT', 'parution' => new \DateTime('1965-11-11'), 'presentation' => 'The most epic space tale around']];
+
+        $i = 0;
+        while($livres[$i]['auteur'] != $auteur)
+        {
+            $i++;
+        }
+
+        $selection = [];
+        array_push($selection,$livres[$i]);
+
+        return $this->render('default/auteur.html.twig', ['livres'=>$livres,'selection'=>$selection]);
     }
 }
